@@ -34,7 +34,7 @@ public class FarmService {
             String endTime = queryParams.getEndTime();
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.isNotEmpty(name)) {
-                predicates.add(builder.equal(root.get("name"), "%" + name + "%"));
+                predicates.add(builder.like(root.get("name"), "%" + name + "%"));
             }
 
             if (StringUtils.isEmpty(startTime) || StringUtils.isEmpty(endTime)) {
@@ -57,6 +57,10 @@ public class FarmService {
         }
         farm.setUpdateDate(new Date());
         farmRepository.save(farm);
+    }
+
+    public void delete(List<String> ids) {
+        ids.forEach(id -> farmRepository.deleteById(id));
     }
 
     private Date string2Date(String date) {
